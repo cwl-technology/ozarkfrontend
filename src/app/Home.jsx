@@ -27,7 +27,7 @@ export default function Home() {
                 <div className="slide-item-content">
                   <div className="slide-item content_center">
                     <div className="image-layer"
-                      style={{ backgroundImage: "url(assets/images/sliders/slider-home-13-1.jpg)" }}>
+                      style={{ backgroundImage: "url(/assets/images/sliders/slider-home-13-1.jpg)" }}>
                     </div>
                     <div className="medium-container">
                       <div className="row align-items-center">

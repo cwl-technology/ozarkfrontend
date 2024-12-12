@@ -3724,6 +3724,7 @@ body .enabled_custom_title .title_page .main_tit {
 .default_sickty_heaad .header_content_collapse .navigation_menu .navbar_nav li {
   position: relative;
   margin-right: 30px;
+  margin-right: 24px;
   padding: 0px 0px;
   margin-bottom: 0px !important;
   display: inline-block;
@@ -5169,7 +5170,8 @@ body .enabled_custom_title .title_page .main_tit {
 
 .header.style_five .header_content_collapse .header_menu_box .navbar_nav li a.nav-link,
 .default_sickty_heaad.style_five .header_content_collapse .header_menu_box .navbar_nav li a.nav-link {
-  font-size: 16px;
+  /* font-size: 16px; */
+  font-size: 13px;
 }
 
 .header.style_five .header_content_collapse .header_right_content,

@@ -1,6 +1,3 @@
-
-
-
 import Link from 'next/link'
 import React from 'react'
 
@@ -136,16 +133,16 @@ function Header() {
                                             </ul>
                                         </div>
                                     </div>
-                                    <div className="header_right_content">
+                                    
+                                    {/* <div className="header_right_content">
                                         <ul>
-
                                             <li>
                                                 <a href="#" target="_blank" rel="nofollow" className="theme-btn gradient-btn"> Get A
                                                     Quote </a>
                                             </li>
-
                                         </ul>
-                                    </div>
+                                    </div> */}
+
                                 </div>
                             </div>
                         </div>
