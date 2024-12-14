@@ -28,6 +28,7 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" id="creote-color-switcher-css" href="assets/css/scss/elements/color-switcher/color.css" type="text/css" media="all" />
         <link rel="stylesheet" href="/assets/css/woocommerce-layout.css" type="text/css" media="all" />
         <link rel="stylesheet" href="/assets/css/woocommerce.css" type="text/css" media="all" />
+        <link rel="stylesheet" href="/assets/css/responsiv.css" />
       </head>
 
       <body>
