@@ -1,8 +1,9 @@
+import Link from 'next/link';
 import React from 'react'
 export const metadata = {
     title: "Blogs || Ozark Company",
     description: "Created by CWL pvt. ltd.",
-  };
+};
 
 function page() {
     return (
@@ -68,7 +69,7 @@ function page() {
                                                 </div>
                                                 <div className="content_inner">
                                                     <p className="post-date"><span className="icon-calendar"></span>October 8, 2023</p>
-                                                    <h3><a href="blog-single.html">Why Should Business Payroll Outsourcing?</a></h3>
+                                                    <h3><a href="/resources/blog_details">Why Should Business Payroll Outsourcing?</a></h3>
                                                 </div>
                                             </div>
                                             <div className="blog_in clearfix image_in">
@@ -77,7 +78,7 @@ function page() {
                                                 </div>
                                                 <div className="content_inner">
                                                     <p className="post-date"><span className="icon-calendar"></span>October 8, 2023</p>
-                                                    <h3><a href="blog-single.html">Most Employees Support Measures</a></h3>
+                                                    <h3><a href="/resources/blog_details">Most Employees Support Measures</a></h3>
                                                 </div>
                                             </div>
                                             <div className="blog_in clearfix image_in">
@@ -86,7 +87,7 @@ function page() {
                                                 </div>
                                                 <div className="content_inner">
                                                     <p className="post-date"><span className="icon-calendar"></span>October 8, 2023</p>
-                                                    <h3><a href="blog-single.html">How to Handle Employee</a></h3>
+                                                    <h3><a href="/resources/blog_details">How to Handle Employee</a></h3>
                                                 </div>
                                             </div>
                                             <div className="blog_in clearfix image_in">
@@ -95,7 +96,7 @@ function page() {
                                                 </div>
                                                 <div className="content_inner">
                                                     <p className="post-date"><span className="icon-calendar"></span>October 8, 2023</p>
-                                                    <h3><a href="blog-single.html">Retaining Good Employees &amp; Motivated</a></h3>
+                                                    <h3><Link href="/resources/blog_details">Retaining Good Employees &amp; Motivated</Link></h3>
                                                 </div>
                                             </div>
 
@@ -110,38 +111,33 @@ function page() {
                                 <main id="main" className="site-main" role="main">
 
                                     <article id="" className="clearfix service type-service status-publish has-post-thumbnail hentry">
-                                        <div className="row grid_layout" style={{ position: "relative", height: "283px" }}>
+                                        <div className="row grid_layout" style={{ position: "relative", height: "auto" }}>
                                             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 grid_box" style={{ position: "absolute", left: "0px", top: "0px" }}>
                                                 <div className="news_box type_one clearfix">
                                                     <div className="news_inner">
                                                         <div className="image_box">
                                                             <img src="/assets/images/blog/blog-image-9.jpg" className="img-fluid" alt="img" />
                                                             <div className="overlay"></div>
-                                                            <div className="post-category">
-                                                                <a href="blog-single.html" className="categories">
-                                                                    <i className="icon-folder"></i>
-                                                                    Compliance Audits
-                                                                </a>
-                                                            </div>
+
                                                         </div>
                                                         <div className="content_box">
                                                             <ul className="post-info clearfix">
 
                                                                 <li className="date">
-                                                                    <a href="blog-single.html">
+                                                                    <Link href="/blog_details">
                                                                         <i className="far  fa-calendar"></i>
                                                                         8 Oct , 2023
-                                                                    </a>
+                                                                    </Link>
                                                                 </li>
                                                             </ul>
-                                                            <h2 className="entry-title"><a href="blog-single.html">Why
-                                                                Should Business Payroll Outsourcing?</a></h2>
+                                                            <h2 className="entry-title"><Link href="/resources/blog_details">Why
+                                                                Should Business Payroll Outsourcing?</Link></h2>
                                                             <p className="short_desc">How well this mistaken ideas off denouncing
                                                                 pleasure &amp; praisings will give you complete.</p>
                                                             <div className="bottom_content clearfix">
                                                                 <div className="continure_reading">
-                                                                    <a href="blog-single.html" className="read_more type_one">
-                                                                        Continue Reading <span className="icon-arrow-right"></span></a>
+                                                                    <Link href="/blog_details" className="read_more type_one">
+                                                                        Continue Reading <span className="icon-arrow-right"></span></Link>
                                                                 </div>
 
                                                             </div>
@@ -155,33 +151,28 @@ function page() {
                                                         <div className="image_box">
                                                             <img src="/assets/images/blog/blog-image-7.jpg" className="img-fluid" alt="img" />
                                                             <div className="overlay"></div>
-                                                            <div className="post-category">
-                                                                <a href="blog-single.html" className="categories">
-                                                                    <i className="icon-folder"></i>
-                                                                    HR Consulting
-                                                                </a>
-                                                            </div>
+
                                                         </div>
                                                         <div className="content_box">
                                                             <ul className="post-info clearfix">
 
                                                                 <li className="date">
-                                                                    <a href="blog-single.html"><i className="far  fa-calendar"></i>
+                                                                    <Link href="/blog_details"><i className="far  fa-calendar"></i>
                                                                         8 Oct , 2023
-                                                                    </a>
+                                                                    </Link>
                                                                 </li>
                                                             </ul>
                                                             <h2 className="entry-title">
-                                                                <a href="blog-single.html">
+                                                                <Link href="/resources/blog_details">
                                                                     How to Handle Employee With Works
-                                                                </a>
+                                                                </Link>
                                                             </h2>
                                                             <p className="short_desc">How well this mistaken ideas off denouncing
                                                                 pleasure &amp; praisings will give you complete.</p>
                                                             <div className="bottom_content clearfix">
                                                                 <div className="continure_reading">
-                                                                    <a href="blog-single.html" className="read_more type_one">
-                                                                        Continue Reading <span className="icon-arrow-right"></span></a>
+                                                                    <Link href="/blog_details" className="read_more type_one">
+                                                                        Continue Reading <span className="icon-arrow-right"></span></Link>
                                                                 </div>
 
                                                             </div>
@@ -189,68 +180,60 @@ function page() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 grid_box" style={{ position: "absolute", left: "0px", top: "560px" }}>
+                                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 grid_box" style={{ position: "absolute", left: "0px", top: "650px" }}>
                                                 <div className="news_box type_one clearfix">
                                                     <div className="news_inner">
                                                         <div className="image_box">
                                                             <img width="750" height="420" src="/assets/images/blog/blog-image-6.jpg" className="img-fluid" alt="" decoding="async" loading="lazy" srcSet="/assets/images/blog/blog-image-6.jpg 750w, assets/images/blog/blog-image-6-600x336.jpg 600w, assets/images/blog/blog-image-6-300x168.jpg 300w" sizes="(max-width: 750px) 100vw, 750px" />
                                                             <div className="overlay"></div>
-                                                            <div className="post-category">
-                                                                <a href="https://themepanthers.com/wp/creote/v2-new/category/recruiting/" className="categories"><i className="icon-folder"></i>Recruiting</a>
-                                                            </div>
+
                                                         </div>
                                                         <div className="content_box">
                                                             <ul className="post-info clearfix">
 
-                                                                <li className="date"> <a href="https://themepanthers.com/wp/creote/v2-new/2023/10/08/retaining-good-employees-motivated/"><i className="far  fa-calendar"></i>8 Oct ,
+                                                                <li className="date"> <a href="#"><i className="far  fa-calendar"></i>8 Oct ,
                                                                     2023 </a> </li>
                                                             </ul>
-                                                            <h2 className="entry-title"><a href="https://themepanthers.com/wp/creote/v2-new/2023/10/08/retaining-good-employees-motivated/">Retaining
-                                                                Good Employees &amp; Motivated</a></h2>
+                                                            <h2 className="entry-title"><Link href="/blog_details">Retaining
+                                                                Good Employees &amp; Motivated</Link></h2>
                                                             <p className="short_desc">How well this mistaken ideas off denouncing
                                                                 pleasure &amp; praisings will give you complete.</p>
                                                             <div className="bottom_content clearfix">
                                                                 <div className="continure_reading">
-                                                                    <a href="https://themepanthers.com/wp/creote/v2-new/2023/10/08/retaining-good-employees-motivated/" className="read_more type_one">
-                                                                        Continue Reading <span className="icon-arrow-right"></span></a>
+                                                                    <Link href="/blog_details" className="read_more type_one">
+                                                                        Continue Reading <span className="icon-arrow-right"></span></Link>
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 grid_box" style={{ position: "absolute", left: "372px", top: "560px" }}>
+                                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 grid_box" style={{ position: "absolute", left: "372px", top: "650px" }}>
                                                 <div className="news_box type_one clearfix">
                                                     <div className="news_inner">
                                                         <div className="image_box">
                                                             <img src="/assets/images/blog/blog-image-9.jpg" className="img-fluid" alt="img" />
                                                             <div className="overlay"></div>
-                                                            <div className="post-category">
-                                                                <a href="blog-single.html" className="categories">
-                                                                    <i className="icon-folder"></i>
-                                                                    Compliance Audits
-                                                                </a>
-                                                            </div>
+
                                                         </div>
                                                         <div className="content_box">
                                                             <ul className="post-info clearfix">
 
                                                                 <li className="date">
-                                                                    <a href="blog-single.html">
+                                                                    <Link href="/blog_details">
                                                                         <i className="far  fa-calendar"></i>
                                                                         8 Oct , 2023
-                                                                    </a>
+                                                                    </Link>
                                                                 </li>
                                                             </ul>
-                                                            <h2 className="entry-title"><a href="#">Why
-                                                                Should Business Payroll Outsourcing?</a></h2>
+                                                            <h2 className="entry-title"><Link href="//resources/blog_details">Why
+                                                                Should Business Payroll Outsourcing?</Link></h2>
                                                             <p className="short_desc">How well this mistaken ideas off denouncing
                                                                 pleasure &amp; praisings will give you complete.</p>
                                                             <div className="bottom_content clearfix">
                                                                 <div className="continure_reading">
-                                                                    <a href="blog-single.html" className="read_more type_one">
-                                                                        Continue Reading <span className="icon-arrow-right"></span></a>
+                                                                    <Link href="/blog_details" className="read_more type_one">
+                                                                        Continue Reading <span className="icon-arrow-right"></span></Link>
                                                                 </div>
 
                                                             </div>
@@ -259,15 +242,14 @@ function page() {
                                                 </div>
                                             </div>
                                         </div>
-                                    </article>  
-                                     <div className="pd_bottom_70"></div>
+                                    </article>
                                 </main>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div className="pd_bottom_70"></div>
             </div>
-
         </>
     )
 }

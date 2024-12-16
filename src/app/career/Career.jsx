@@ -1,13 +1,43 @@
 "use client"
 
-import React from 'react'
+import api from '@/_config/config';
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 
-function Career () {
+function Career() {
+    const [careerPageData, setCareerPageData] = useState(false);
+    const [jobData, setJobData] = useState();
+
     const [activeIndex, setActiveIndex] = useState(0);
     const handleToggle = (index) => {
         setActiveIndex(activeIndex === index ? null : index);
     };
+
+    useEffect(() => {
+        getCareerPageData();
+        getJobData()
+    }, []);
+
+    const getCareerPageData = async () => {
+        try {
+            const res = await api.get("/career/get_career_page");
+            setCareerPageData(res.data.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getJobData = async () => {
+        try {
+            const res = await api.get("/jobs/get_all_active_job");
+            console.log(res.data);
+            setJobData(res.data.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
     return (
         <>
             <div id="content" className="site-content ">
@@ -45,14 +75,15 @@ function Career () {
                                         <div className="icon"> <span className="fa fa-deaf"></span> </div>
                                         <small>01</small>
                                         <div className="text_box">
-                                            <h2>Conserve Water</h2>
-                                            <p>The less water you use, the less runoff and wastewater that eventually end up in the ocean.</p>
+                                            <h2>{careerPageData?.subheading1}</h2>
+                                            <p>{careerPageData?.content1}</p>
                                         </div>
                                         <div className="hover_content">
                                             <div className="content">
                                                 <div className="inner">
-                                                    <p>The less water you use, the less runoff and wastewater that eventually end up in the ocean.</p>
-                                                    <a href="#" className="read_more">Read More <span className="icon-right-arrow-long"></span></a> </div>
+                                                    <p>{careerPageData?.hover_content1}</p>
+                                                    {/* <a href="#" className="read_more">Read More <span className="icon-right-arrow-long"></span></a>  */}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -64,14 +95,15 @@ function Career () {
                                         <div className="icon"> <span className="fa fa-dropbox"></span> </div>
                                         <small>02</small>
                                         <div className="text_box">
-                                            <h2>Conserve Water</h2>
-                                            <p>The less water you use, the less runoff and wastewater that eventually end up in the ocean.</p>
+                                            <h2>{careerPageData?.subheading2}</h2>
+                                            <p>{careerPageData?.content2}</p>
                                         </div>
                                         <div className="hover_content">
                                             <div className="content">
                                                 <div className="inner">
-                                                    <p>The less water you use, the less runoff and wastewater that eventually end up in the ocean.</p>
-                                                    <a href="#" className="read_more">Read More <span className="icon-right-arrow-long"></span></a> </div>
+                                                    <p>{careerPageData?.hover_content2}</p>
+                                                    {/* <a href="#" className="read_more">Read More <span className="icon-right-arrow-long"></span></a>  */}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -83,14 +115,15 @@ function Career () {
                                         <div className="icon"> <span className="icon-world"></span> </div>
                                         <small>03</small>
                                         <div className="text_box">
-                                            <h2>Conserve Water</h2>
-                                            <p>The less water you use, the less runoff and wastewater that eventually end up in the ocean.</p>
+                                            <h2>{careerPageData?.subheading3}</h2>
+                                            <p>{careerPageData?.content2}</p>
                                         </div>
                                         <div className="hover_content">
                                             <div className="content">
                                                 <div className="inner">
-                                                    <p>The less water you use, the less runoff and wastewater that eventually end up in the ocean.</p>
-                                                    <a href="#" className="read_more">Read More <span className="icon-right-arrow-long"></span></a> </div>
+                                                    <p>{careerPageData?.hover_content3}</p>
+                                                    {/* <a href="#" className="read_more">Read More <span className="icon-right-arrow-long"></span></a>  */}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -99,6 +132,7 @@ function Career () {
                         </div>
                     </div>
                 </section>
+
                 <div className="pd_top_90"></div>
                 <section className="expertise">
                     <div className="area_of_expertise">
@@ -146,6 +180,7 @@ function Career () {
                         </div>
                     </div>
                 </section>
+
                 <section className="faqs-section">
                     <div className="pd_top_90"></div>
                     <div className="container">
@@ -166,68 +201,32 @@ function Career () {
                                     <div className="block_faq">
                                         <div className="accordion">
                                             <dl>
-                                                {/* FAQ 1 */}
-                                                <dt
-                                                    className={`faq_header ${activeIndex === 0 ? 'active' : ''}`}
-                                                    onClick={() => handleToggle(0)}
-                                                >
-                                                    Business Growth Manager - 2 Posts
-                                                    <span className="icon-chevron-down"></span>
-                                                </dt>
-                                                <dd className={`accordion-content ${activeIndex === 0 ? 'show' : ''}`}>
-                                                    <h6>Job Description:</h6>
-                                                    <p>Serenity Is Multi-Faceted Blockchain Based Ecosystem...</p>
-                                                    <h6>Desired Skills:</h6>
-                                                    <ul>
-                                                        <li>End to end visibility of time metrics for the hybrid workforce</li>
-                                                        <li>Workload Balancing between individuals and teams</li>
-                                                        <li>Create Automated timesheets concentrated facilities</li>
-                                                        <li>Integrate ProHance data within payroll systems</li>
-                                                        <li>Transform processes based on work patterns</li>
-                                                    </ul>
-                                                </dd>
+                                                {
+                                                    jobData?.map((job, index) =>
+                                                        <div key={index}>
+                                                            <dt
+                                                                className={`faq_header ${activeIndex === index ? 'active' : ''}`}
+                                                                onClick={() => handleToggle(index)}
+                                                            >
+                                                                {job.job_title} - {job.available_posts} Posts
+                                                                <span className="icon-chevron-down"></span>
+                                                            </dt>
+                                                            <dd className={`accordion-content ${activeIndex === index ? 'show' : ''}`}>
+                                                                <h6>Job Description:</h6>
+                                                                <p>{job.job_description}</p>
+                                                                <h6>Desired Skills:</h6>
+                                                                <ul>
+                                                                    {
+                                                                        job?.skills?.map((ele,ind)=>
+                                                                        <li key={ind}>{ele.name}</li>
+                                                                        )
+                                                                    }
+                                                                </ul>
+                                                            </dd>
+                                                        </div>
+                                                    )
+                                                }
 
-                                                {/* FAQ 2 */}
-                                                <dt
-                                                    className={`faq_header ${activeIndex === 1 ? 'active' : ''}`}
-                                                    onClick={() => handleToggle(1)}
-                                                >
-                                                    Joomla Developer - 3 Posts
-                                                    <span className="icon-chevron-down"></span>
-                                                </dt>
-                                                <dd className={`accordion-content ${activeIndex === 1 ? 'show' : ''}`}>
-                                                    <h6>Job Description:</h6>
-                                                    <p>Serenity Is Multi-Faceted Blockchain Based Ecosystem...</p>
-                                                    <h6>Desired Skills:</h6>
-                                                    <ul>
-                                                        <li>End to end visibility of time metrics for the hybrid workforce</li>
-                                                        <li>Workload Balancing between individuals and teams</li>
-                                                        <li>Create Automated timesheets concentrated facilities</li>
-                                                        <li>Integrate ProHance data within payroll systems</li>
-                                                        <li>Transform processes based on work patterns</li>
-                                                    </ul>
-                                                </dd>
-
-                                                {/* FAQ 3 */}
-                                                <dt
-                                                    className={`faq_header ${activeIndex === 2 ? 'active' : ''}`}
-                                                    onClick={() => handleToggle(2)}
-                                                >
-                                                    Wordpress Developer
-                                                    <span className="icon-chevron-down"></span>
-                                                </dt>
-                                                <dd className={`accordion-content ${activeIndex === 2 ? 'show' : ''}`}>
-                                                    <h6>Job Description:</h6>
-                                                    <p>Serenity Is Multi-Faceted Blockchain Based Ecosystem...</p>
-                                                    <h6>Desired Skills:</h6>
-                                                    <ul>
-                                                        <li>End to end visibility of time metrics for the hybrid workforce</li>
-                                                        <li>Workload Balancing between individuals and teams</li>
-                                                        <li>Create Automated timesheets concentrated facilities</li>
-                                                        <li>Integrate ProHance data within payroll systems</li>
-                                                        <li>Transform processes based on work patterns</li>
-                                                    </ul>
-                                                </dd>
                                             </dl>
                                         </div>
                                     </div>
@@ -235,6 +234,8 @@ function Career () {
                             </div>
                         </div>
                     </div>
+
+
                 </section>
                 <div className="pd_bottom_90"></div>
                 <section className="contact-section bg_op_1" style={{ backgroundImage: "url(/assets/images/contact-bg-7.jpg)" }}>

@@ -1,15 +1,53 @@
 "use client"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useForm } from "react-hook-form";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
+import toast from 'react-hot-toast';
+import api from '@/_config/config';
+
 export default function Home() {
 
   const [activeTab, setActiveTab] = useState(1);
   const handleTabClick = (tabIndex) => {
     setActiveTab(tabIndex);
   };
+
+  const [homePageData, setHomePageData] = useState();
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+
+  const onSubmit = async (data) => {
+    try {
+      const res = await api.post("/contact_enquiry/post_contact_enquiry_data", data);
+     
+      if (res.data.status == 1) {
+        toast.success(res.data.message);
+        reset();
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, [])
+
+  const getData = async () => {
+    try {
+      const res = await api.get("/home/home_page_api");
+      setHomePageData(res.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  
+
+  console.log(homePageData);
 
   return (
     <>
@@ -23,120 +61,48 @@ export default function Home() {
                 disableOnInteraction: false,
               }}
               modules={[Navigation, Autoplay]} className="mySwiper">
-              <SwiperSlide>
-                <div className="slide-item-content">
-                  <div className="slide-item content_center">
-                    <div className="image-layer"
-                      style={{ backgroundImage: "url(/assets/images/sliders/slider-home-13-1.jpg)" }}>
-                    </div>
-                    <div className="medium-container">
-                      <div className="row align-items-center">
-                        <div className="col-lg-10 col-md-12 col-sm-12 col-xs-12 m-auto">
-                          <div className="slider_content">
-                            <h6 className="animate_left text-uppercase">
-                              Solutions for your business
-                            </h6>
-                            <h1 className="animate_up">
-                              Save time and increase profits for your business
-                            </h1>
-                            <p className="animate_right pd_bottom_40">
-                              Professional back office and administrative support for accountants, book-keepers
-                              and finance experts
-                            </p>
-                            <ul className="animate_down">
-                              <li className="theme_btn_all color_two">
-                                <a href="#" className="theme-btn one">Our Solutions</a>
-                              </li>
-                              <li className="theme_btn_all">
-                                <a href="#" className="theme-btn one color_white">Our Projects</a>
-                              </li>
-                            </ul>
-                          </div>
+              {
+                homePageData?.banner?.map((ele, ind) =>
+                  <SwiperSlide key={ind}>
+                    <div className="slide-item-content">
+                      <div className="slide-item content_center">
+                        <div className="image-layer"
+                          style={{ backgroundImage: `url(${ele.image})` }}>
                         </div>
+                        <div className="medium-container">
+                          <div className="row align-items-center">
+                            <div className="col-lg-10 col-md-12 col-sm-12 col-xs-12 m-auto">
+                              <div className="slider_content">
+                                <h6 className="animate_left text-uppercase">
+                                  {ele.title}
+                                </h6>
+                                <h1 className="animate_up">
+                                  {ele.heading}
+                                </h1>
+                                <p className="animate_right pd_bottom_40">
+                                  {ele.content}
+                                </p>
+                                <ul className="animate_down">
+                                  <li className="theme_btn_all color_two">
+                                    <a href="#" className="theme-btn one">Our Solutions</a>
+                                  </li>
+                                  <li className="theme_btn_all">
+                                    <a href="#" className="theme-btn one color_white">Our Projects</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
 
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="slide-item-content">
-                  <div className="slide-item content_left">
-                    <div className="image-layer"
-                      style={{ backgroundImage: "url(assets/images/sliders/slider-home-13-1.jpg)" }}>
-                    </div>
-                    <div className="medium-container">
-                      <div className="row align-items-center">
-                        <div className="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-                          <div className="slider_content">
-                            <h6 className="animate_left">
-                              Solutions for your business
-                            </h6>
-                            <h1 className="animate_up">
-                              Save time and increase profits for your business
-
-                            </h1>
-                            <p className="animate_right pd_bottom_40">
-                              Professional back office and administrative support for accountants, book-keepers
-                              and finance experts
-
-                            </p>
-                            <ul className="animate_down">
-                              <li className="theme_btn_all color_two">
-                                <a href="#" className="theme-btn one">Our Solutions</a>
-                              </li>
-                              <li className="theme_btn_all">
-                                <a href="#" className="theme-btn one color_white">Our Projects</a>
-                              </li>
-                            </ul>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="slide-item-content">
-                  <div className="slide-item content_center">
-                    <div className="image-layer"
-                      style={{ backgroundImage: "url(assets/images/sliders/slider-home-13-1.jpg)" }}>
-                    </div>
-                    <div className="medium-container">
-                      <div className="row align-items-center">
-                        <div className="col-lg-10 col-md-12 col-sm-12 col-xs-12 m-auto">
-                          <div className="slider_content">
-                            <h6 className="animate_left text-uppercase">
-                              Solutions for your business
-                            </h6>
-                            <h1 className="animate_up">
-                              Save time and increase profits for your business
-                            </h1>
-                            <p className="animate_right pd_bottom_40">
-                              Professional back office and administrative support for accountants, book-keepers
-                              and finance experts
-                            </p>
-                            <ul className="animate_down">
-                              <li className="theme_btn_all color_two">
-                                <a href="#" className="theme-btn one">Our Solutions</a>
-                              </li>
-                              <li className="theme_btn_all">
-                                <a href="#" className="theme-btn one color_white">Our Projects</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
+                  </SwiperSlide>)
+              }
             </Swiper>
           </div>
 
-        </section>
-
+        </section >
 
         <section className="service_section bg_light_1" id="service">
 
@@ -276,8 +242,6 @@ export default function Home() {
           <div className="pd_bottom_70"></div>
         </section>
 
-
-
         <section className="project-section bg_dark_3">
           <div className="pd_top_85"></div>
           <div className="container-fluid pd_zero">
@@ -290,7 +254,7 @@ export default function Home() {
             </div>
 
             <Swiper
-              slidesPerView={5}
+              slidesPerView={3}
               centeredSlides={true}
               spaceBetween={30}
               grabCursor={true}
@@ -303,138 +267,36 @@ export default function Home() {
               modules={[Autoplay]}
               className="mySwiper"
             >
-              <SwiperSlide>
-                <div style={{ width: "350.6px", marginRight: "30px" }}>
-                  <div className="project_post style_seven">
-                    <div className="image_box">
-                      <img src="/assets/images/service/1.webp" className="img-fluid" alt="img" />
-                    </div>
-                    <div className="content_box">
-                      <h2 className="title_pro"><a href="#" rel="bookmark">Bookkeeping</a></h2>
-                      <a className="quote-btn" href="#">Get A Quote</a>
-                      <div className="image_zoom_box ">
-                        <a href="#" data-fancybox="gallery"><span
-                          className="fa fa-plus zoom_icon"></span></a>
-                      </div>
-                    </div>
-                    <div className="overlay ">
-                      <div className="text ">
-                        <h2 className="title_pro"><a href="#" rel="bookmark">Bookkeeping</a></h2>
-                        <p className="short_desc">Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                          text ever...</p>
-                        <a href="#" className="read_more tp_five ">Read More</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
 
-              <SwiperSlide>
-                <div style={{ width: "350.6px", marginRight: "30px" }}>
-                  <div className="project_post style_seven">
-                    <div className="image_box">
-                      <img src="/assets/images/service/2.webp" className="img-fluid" alt="img" />
-                    </div>
-                    <div className="content_box">
-                      <h2 className="title_pro"><a href="#" rel="bookmark">Year-End Accounts</a></h2>
-                      <a className="quote-btn" href="#">Get A Quote</a>
-                      <div className="image_zoom_box ">
-                        <a href="#" data-fancybox="gallery"><span
-                          className="fa fa-plus zoom_icon"></span></a>
+              {
+                homePageData?.solution?.map((ele, ind) =>
+                  <SwiperSlide key={ind}>
+                    <div style={{ width: "350.6px", marginRight: "30px" }}>
+                      <div className="project_post style_seven">
+                        <div className="image_box">
+                          <img src={ele.solution_image} className="img-fluid" alt="img" />
+                        </div>
+                        <div className="content_box">
+                          <h2 className="title_pro"><a href="#" rel="bookmark">Bookkeeping</a></h2>
+                          <a className="quote-btn" href="#">Get A Quote</a>
+                          <div className="image_zoom_box ">
+                            <a href="#" data-fancybox="gallery"><span
+                              className="fa fa-plus zoom_icon"></span></a>
+                          </div>
+                        </div>
+                        <div className="overlay ">
+                          <div className="text ">
+                            <h2 className="title_pro"><a href="#" rel="bookmark">{ele.solution_name}</a></h2>
+                            <p className="short_desc">{ele.content}</p>
+                            <a href="#" className="read_more tp_five ">Read More</a>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className="overlay ">
-                      <div className="text ">
-                        <h2 className="title_pro"><a href="#" rel="bookmark">Year-End Accounts</a></h2>
-                        <p className="short_desc">Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                          text ever...</p>
-                        <a href="#" className="read_more tp_five ">Read More</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div style={{ width: "350.6px", marginRight: "30px" }}>
-                  <div className="project_post style_seven">
-                    <div className="image_box">
-                      <img src="/assets/images/service/3.webp" className="img-fluid" alt="img" />
-                    </div>
-                    <div className="content_box">
-                      <h2 className="title_pro"><a href="#" rel="bookmark">Virtual CFO</a></h2>
-                      <a className="quote-btn" href="#">Get A Quote</a>
-                      <div className="image_zoom_box ">
-                        <a href="#" data-fancybox="gallery"><span
-                          className="fa fa-plus zoom_icon"></span></a>
-                      </div>
-                    </div>
-                    <div className="overlay ">
-                      <div className="text ">
-                        <h2 className="title_pro"><a href="#" rel="bookmark">Virtual CFO</a></h2>
-                        <p className="short_desc">Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                          text ever...</p>
-                        <a href="#" className="read_more tp_five ">Read More</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div style={{ width: "350.6px", marginRight: "30px" }}>
-                  <div className="project_post style_seven">
-                    <div className="image_box">
-                      <img src="/assets/images/service/4.webp" className="img-fluid" alt="img" />
-                    </div>
-                    <div className="content_box">
-                      <h2 className="title_pro"><a href="#" rel="bookmark">Financial Automation</a></h2>
-                      <a className="quote-btn" href="#">Get A Quote</a>
-                      <div className="image_zoom_box ">
-                        <a href="#" data-fancybox="gallery"><span
-                          className="fa fa-plus zoom_icon"></span></a>
-                      </div>
-                    </div>
-                    <div className="overlay ">
-                      <div className="text ">
-                        <h2 className="title_pro"><a href="#" rel="bookmark">Financial Automation</a>
-                        </h2>
-                        <p className="short_desc">Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                          text ever...</p>
-                        <a href="#" className="read_more tp_five ">Read More</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div style={{ width: "350.6px", marginRight: "30px" }}>
-                  <div className="project_post style_seven">
-                    <div className="image_box">
-                      <img src="/assets/images/service/5.webp" className="img-fluid" alt="img" />
-                    </div>
-                    <div className="content_box">
-                      <h2 className="title_pro"><a href="#" rel="bookmark">AP/AR Processes</a></h2>
-                      <a className="quote-btn" href="#">Get A Quote</a>
-                      <div className="image_zoom_box ">
-                        <a href="#" data-fancybox="gallery"><span
-                          className="fa fa-plus zoom_icon"></span></a>
-                      </div>
-                    </div>
-                    <div className="overlay ">
-                      <div className="text ">
-                        <h2 className="title_pro"><a href="#" rel="bookmark">AP/AR Processes</a></h2>
-                        <p className="short_desc">Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                          text ever...</p>
-                        <a href="#" className="read_more tp_five ">Read More</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
+                  </SwiperSlide>
+                )
+              }
+
             </Swiper>
           </div>
           <div className="pd_bottom_65"></div>
@@ -448,7 +310,7 @@ export default function Home() {
                 <div className="image_boxes style_seven">
                   <div className="image_box">
                     <img
-                      src="/assets/images/about/about-11.jpg"
+                      src={homePageData?.why_choose_us?.image}
                       className="img-fluid height_600px object-fit-cover"
                       alt="about"
                     />
@@ -469,22 +331,9 @@ export default function Home() {
                 <div className="title_all_box style_one dark_color">
                   <div className="title_sections left">
                     <div className="before_title">Why Choose Us</div>
-                    <h2>Trusted Partner for Accounts & Finance Professionals</h2>
+                    <h2>{homePageData?.why_choose_us?.heading}</h2>
 
-                    <div className="description_box">
-                      <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                        been the industry's standard dummy text ever since the 1500s.
-                      </p>
-                    </div>
-
-                    <div className="pd_top_20"></div>
-                    <div className="description_box">
-                      <p>
-                        It has survived not only five centuries, but also the leap into electronic typesetting,
-                        remaining essentially unchanged.
-                      </p>
-                    </div>
+                    <div className="description_box" dangerouslySetInnerHTML={{ __html: homePageData?.why_choose_us?.description || ''}}></div>
                   </div>
                 </div>
 
@@ -526,8 +375,7 @@ export default function Home() {
                           <div className="tab_content one">
                             <div className="content_bx">
                               <p>
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has been the industry's standard dummy text ever since the 1500s.
+                                {homePageData?.why_choose_us?.mission_content}
                               </p>
                             </div>
                           </div>
@@ -536,8 +384,7 @@ export default function Home() {
                           <div className="tab_content one">
                             <div className="content_bx">
                               <p>
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has been the industry's standard dummy text ever since the 1500s.
+                                {homePageData?.why_choose_us?.vision_content}
                               </p>
                             </div>
                           </div>
@@ -546,8 +393,7 @@ export default function Home() {
                           <div className="tab_content one">
                             <div className="content_bx">
                               <p>
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has been the industry's standard dummy text ever since the 1500s.
+                                {homePageData?.why_choose_us?.values_content}
                               </p>
                             </div>
                           </div>
@@ -561,7 +407,6 @@ export default function Home() {
           </div>
           <div className="pd_bottom_80"></div>
         </section>
-
 
         <section className="funfact-section bg_light_1">
           <div className="pd_bottom_80"></div>
@@ -658,18 +503,16 @@ export default function Home() {
               <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                 <div className="choose_box  type_one">
                   <div className="image_box">
-                    <img src="assets/images/24-hours-support.png" className="img-fluid svg_image" alt="icon png" />
+                    <img src={homePageData?.our_expertise?.icon1} className="img-fluid svg_image" alt="icon png" />
                   </div>
                   <div className="content_box">
                     <span className="step_no">01</span>
                     <div className="text_box">
                       <h2>
                         <a href="#" target="_blank">
-                          24/7 support </a>
+                          {homePageData?.our_expertise?.subheading1} </a>
                       </h2>
-                      <p>Alienssa pentalim ex arcu, ac ultricies tortor ultricies pellentesque.</p>
-
-
+                      <p>{homePageData?.our_expertise?.content1}</p>
                     </div>
                   </div>
                 </div>
@@ -677,18 +520,16 @@ export default function Home() {
               <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                 <div className="choose_box  type_one">
                   <div className="image_box">
-                    <img src="assets/images/email-marketing.png" className="img-fluid svg_image" alt="icon png" />
+                    <img src={homePageData?.our_expertise?.icon2} className="img-fluid svg_image" alt="icon png" />
                   </div>
                   <div className="content_box">
                     <span className="step_no">02</span>
                     <div className="text_box">
                       <h2>
                         <a href="#" target="_blank">
-                          Quick Response </a>
+                          {homePageData?.our_expertise?.subheading2} </a>
                       </h2>
-                      <p>Alienssa pentalim ex arcu, ac ultricies tortor ultricies pellentesque.</p>
-
-
+                      <p>{homePageData?.our_expertise?.content2}</p>
                     </div>
                   </div>
                 </div>
@@ -696,18 +537,16 @@ export default function Home() {
               <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                 <div className="choose_box  type_one">
                   <div className="image_box">
-                    <img src="assets/images/team-management.png" className="img-fluid svg_image" alt="icon png" />
+                    <img src={homePageData?.our_expertise?.icon3} className="img-fluid svg_image" alt="icon png" />
                   </div>
                   <div className="content_box">
                     <span className="step_no">03</span>
                     <div className="text_box">
                       <h2>
                         <a href="#" target="_blank">
-                          Experience Team </a>
+                          {homePageData?.our_expertise?.subheading3} </a>
                       </h2>
-                      <p>Alienssa pentalim ex arcu, ac ultricies tortor ultricies pellentesque.</p>
-
-
+                      <p>{homePageData?.our_expertise?.content3}</p>
                     </div>
                   </div>
                 </div>
@@ -715,21 +554,21 @@ export default function Home() {
               <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                 <div className="choose_box  type_one">
                   <div className="image_box">
-                    <img src="assets/images/solution-1.png" className="img-fluid svg_image" alt="icon png" />
+                    <img src={homePageData?.our_expertise?.icon4} className="img-fluid svg_image" alt="icon png" />
                   </div>
                   <div className="content_box">
                     <span className="step_no">04</span>
                     <div className="text_box">
                       <h2>
                         <a href="#" target="_blank">
-                          Smart solutions </a>
+                          {homePageData?.our_expertise?.subheading4} </a>
                       </h2>
-                      <p>Alienssa pentalim ex arcu, ac ultricies tortor ultricies pellentesque.</p>
-
+                      <p>{homePageData?.our_expertise?.content4}</p>
                     </div>
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
           <div className="pd_bottom_65"></div>
@@ -738,7 +577,7 @@ export default function Home() {
         <section className="contact-client-carousel-section">
           <div className="row">
             <div className="col-xxl-5 col-xl-5 col-lg-12 bg_op_1"
-              style={{ background: "url(assets/images/testimonialbg.jpg)" }}>
+              style={{ background: "url(/assets/images/testimonialbg.jpg)" }}>
               <div className="videobtns text-center d-flex align-items-center flex-column justify-content-center">
                 <h4 className="color_white">How can we help you?</h4>
                 <h5 className="color_white">+91 - 8743877462</h5>
@@ -746,7 +585,7 @@ export default function Home() {
               </div>
             </div>
             <div className="col-xl-7 col-lg-7 col-md-12 bg_op_1"
-              style={{ backgroundImage: "url(assets/images/home-12-testi.jpg)" }}>
+              style={{ backgroundImage: "url(/assets/images/home-12-testi.jpg)" }}>
               <div className="pd_top_90"></div>
               <div className="row">
                 <div className="col-lg-1"></div>
@@ -925,7 +764,7 @@ export default function Home() {
 
                       <Swiper
 
-                        slidesPerView={3}
+                        slidesPerView={1}
                         spaceBetween={30}
                         navigation={true}
                         modules={[Navigation]}
@@ -934,195 +773,43 @@ export default function Home() {
                         centeredSlides={true}
                         loop
                       >
-                        <SwiperSlide>
-                          <div
-                            style={{ width: "490.333px", marginRight: "30px" }}>
-                            <div className="testimonial_box">
-                              <div className="authour_image">
-                                <i className="icon-quote"></i>
-                                <img src="assets/images/team/team-2.jpg" alt="image" />
-                              </div>
-                              <div className="c_content">
-                                <div className="content_in">
-                                  <h4>Jacob Leonardo</h4>
-                                  <span>Senior Manager of Excel Solution</span>
+
+                        {
+                          homePageData?.testimonial?.map((ele, ind) =>
+                            <SwiperSlide key={ind}>
+                              <div
+                                style={{ width: "490.333px", marginRight: "30px" }}>
+                                <div className="testimonial_box">
+                                  <div className="authour_image">
+                                    <i className="icon-quote"></i>
+                                    <img src={ele.image} alt="image" />
+                                  </div>
+                                  <div className="c_content">
+                                    <div className="content_in">
+                                      <h4>{ele.name}</h4>
+                                      <span>{ele.designation}</span>
+                                    </div>
+                                  </div>
+                                  <div className="pd_bottom_20"></div>
+                                  <div className="comment">
+                                    {ele.content}
+                                  </div>
+                                  <div className="rating">
+                                    <ul>
+                                      <li>
+                                        {
+                                          [1, 2, 3, 4, 5].map((e, i) => (
+                                            ele.rating >= e ? <span className="fa fa-star fill" key={i}></span> : <span
+                                              className="fa fa-star empty" key={i}></span>
+                                          ))
+                                        }
+                                      </li>
+                                    </ul>
+                                  </div>
                                 </div>
                               </div>
-                              <div className="pd_bottom_20"></div>
-                              <div className="comment">
-                                While running an early stage startup everything feels
-                                hard, that’s why it’s been so nice to have our accounting
-                                feel easy. We recommed Qetus.
-                              </div>
-                              <div className="rating">
-                                <ul>
-                                  <li><span className="fa fa-star fill"></span><span
-                                    className="fa fa-star fill"></span><span
-                                      className="fa fa-star empty"></span><span
-                                        className="fa fa-star empty"></span><span
-                                          className="fa fa-star empty"></span></li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <div
-                            style={{ width: "490.333px", marginRight: "30px" }}>
-                            <div className="testimonial_box">
-                              <div className="authour_image">
-                                <i className="icon-quote"></i>
-                                <img src="assets/images/team/team-1.jpg" alt="image" />
-                              </div>
-                              <div className="c_content">
-                                <div className="content_in">
-                                  <h4>Jacob Leonardo</h4>
-                                  <span>Senior Manager of Excel Solution</span>
-                                </div>
-                              </div>
-                              <div className="pd_bottom_20"></div>
-                              <div className="comment">
-                                While running an early stage startup everything feels
-                                hard, that’s why it’s been so nice to have our accounting
-                                feel easy. We recommed Qetus.
-                              </div>
-                              <div className="rating">
-                                <ul>
-                                  <li><span className="fa fa-star fill"></span><span
-                                    className="fa fa-star fill"></span><span
-                                      className="fa fa-star empty"></span><span
-                                        className="fa fa-star empty"></span><span
-                                          className="fa fa-star empty"></span></li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <div style={{ width: "490.333px", marginRight: "30px" }}>
-                            <div className="testimonial_box">
-                              <div className="authour_image">
-                                <i className="icon-quote"></i>
-                                <img src="assets/images/team/team-3.png" alt="image" />
-                              </div>
-                              <div className="c_content">
-                                <div className="content_in">
-                                  <h4>Jacob Leonardo</h4>
-                                  <span>Senior Manager of Excel Solution</span>
-                                </div>
-                              </div>
-                              <div className="pd_bottom_20"></div>
-                              <div className="comment">
-                                While running an early stage startup everything feels
-                                hard, that’s why it’s been so nice to have our accounting
-                                feel easy. We recommed Qetus.
-                              </div>
-                              <div className="rating">
-                                <ul>
-                                  <li><span className="fa fa-star fill"></span><span
-                                    className="fa fa-star fill"></span><span
-                                      className="fa fa-star empty"></span><span
-                                        className="fa fa-star empty"></span><span
-                                          className="fa fa-star empty"></span></li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <div style={{ width: "490.333px", marginRight: "30px" }}>
-                            <div className="testimonial_box">
-                              <div className="authour_image">
-                                <i className="icon-quote"></i>
-                                <img src="assets/images/team/team-2.jpg" alt="image" />
-                              </div>
-                              <div className="c_content">
-                                <div className="content_in">
-                                  <h4>Jacob Leonardo</h4>
-                                  <span>Senior Manager of Excel Solution</span>
-                                </div>
-                              </div>
-                              <div className="pd_bottom_20"></div>
-                              <div className="comment">
-                                While running an early stage startup everything feels
-                                hard, that’s why it’s been so nice to have our accounting
-                                feel easy. We recommed Qetus.
-                              </div>
-                              <div className="rating">
-                                <ul>
-                                  <li><span className="fa fa-star fill"></span><span
-                                    className="fa fa-star fill"></span><span
-                                      className="fa fa-star empty"></span><span
-                                        className="fa fa-star empty"></span><span
-                                          className="fa fa-star empty"></span></li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <div style={{ width: "490.333px", marginRight: "30px" }}>
-                            <div className="testimonial_box">
-                              <div className="authour_image">
-                                <i className="icon-quote"></i>
-                                <img src="/assets/images/team/team-1.jpg" alt="image" />
-                              </div>
-                              <div className="c_content">
-                                <div className="content_in">
-                                  <h4>Jacob Leonardo</h4>
-                                  <span>Senior Manager of Excel Solution</span>
-                                </div>
-                              </div>
-                              <div className="pd_bottom_20"></div>
-                              <div className="comment">
-                                While running an early stage startup everything feels
-                                hard, that’s why it’s been so nice to have our accounting
-                                feel easy. We recommed Qetus.
-                              </div>
-                              <div className="rating">
-                                <ul>
-                                  <li><span className="fa fa-star fill"></span><span
-                                    className="fa fa-star fill"></span><span
-                                      className="fa fa-star empty"></span><span
-                                        className="fa fa-star empty"></span><span
-                                          className="fa fa-star empty"></span></li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <div
-                            style={{ width: "490.333px", marginRight: "30px" }}>
-                            <div className="testimonial_box">
-                              <div className="authour_image">
-                                <i className="icon-quote"></i>
-                                <img src="assets/images/team/team-3.png" alt="image" />
-                              </div>
-                              <div className="c_content">
-                                <div className="content_in">
-                                  <h4>Jacob Leonardo</h4>
-                                  <span>Senior Manager of Excel Solution</span>
-                                </div>
-                              </div>
-                              <div className="pd_bottom_20"></div>
-                              <div className="comment">
-                                While running an early stage startup everything feels
-                                hard, that’s why it’s been so nice to have our accounting
-                                feel easy. We recommed Qetus.
-                              </div>
-                              <div className="rating">
-                                <ul>
-                                  <li><span className="fa fa-star fill"></span><span
-                                    className="fa fa-star fill"></span><span
-                                      className="fa fa-star empty"></span><span
-                                        className="fa fa-star empty"></span><span
-                                          className="fa fa-star empty"></span></li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </SwiperSlide>
+                            </SwiperSlide>)
+                        }
                       </Swiper>
 
                     </div>
@@ -1154,7 +841,7 @@ export default function Home() {
               <div className="col-lg-8 m-auto">
                 <div className="title_all_box style_six text-center  dark_color">
                   <div className="title_sections">
-                    <h2>Latest News and Updates</h2>
+                    <h2>Latest Blogs</h2>
 
                   </div>
                 </div>
@@ -1166,131 +853,48 @@ export default function Home() {
 
               <div className="row">
 
-                <div className="col-xl-4 col-md-6 col-sm-6  col-xs-12">
+                {
+                  homePageData?.blogs?.map((ele, ind) => <div key={ind} className="col-xl-4 col-md-6 col-sm-6  col-xs-12">
 
-                  <div className="news_box type_one clearfix">
-                    <div className="news_inner">
-                      <div className="image_box">
-                        <img src="/assets/images/blog/blog-image-9.jpg" className="img-fluid" alt="img" />
-                        <div className="overlay"></div>
-                        <div className="post-category">
+                    <div className="news_box type_one clearfix">
+                      <div className="news_inner">
+                        <div className="image_box">
+                          <img src={ele.main_image} className="img-fluid" alt="img" />
+                          <div className="overlay"></div>
+                          {/* <div className="post-category">
                           <a href="blog-single.html" className="categories">
                             <i className="icon-folder"></i>
                             Compliance Audits
                           </a>
+                        </div> */}
                         </div>
-                      </div>
-                      <div className="content_box">
-                        <ul className="post-info clearfix">
+                        <div className="content_box">
+                          <ul className="post-info clearfix">
 
-                          <li className="date">
-                            <a href="blog-single.html">
-                              <i className="far  fa-calendar"></i>
-                              8 Oct , 2023
-                            </a>
-                          </li>
-                        </ul>
-                        <h2 className="entry-title"><a href="blog-single.html">Why
-                          Should Business Payroll Outsourcing?</a></h2>
-                        <p className="short_desc">How well this mistaken ideas off denouncing
-                          pleasure &amp; praisings will give you complete.</p>
-                        <div className="bottom_content clearfix">
-                          <div className="continure_reading">
-                            <a href="blog-single.html" className="read_more type_one">
-                              Continue Reading <span className="icon-arrow-right"></span></a>
+                            <li className="date">
+                              <a href="blog-single.html">
+                                <i className="far  fa-calendar"></i>
+                                {ele.blog_date}
+                              </a>
+                            </li>
+                          </ul>
+                          <h2 className="entry-title"><a href="blog-single.html">{ele.heading}</a></h2>
+                          <p className="short_desc">How well this mistaken ideas off denouncing
+                            pleasure &amp; praisings will give you complete.</p>
+                          <div className="bottom_content clearfix">
+                            <div className="continure_reading">
+                              <a href="blog-single.html" className="read_more type_one">
+                                Continue Reading <span className="icon-arrow-right"></span></a>
+                            </div>
+
                           </div>
-
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                </div>
+                  </div>)
+                }
 
-                <div className="col-xl-4 col-md-6 col-sm-6  col-xs-12">
-
-                  <div className="news_box type_one clearfix">
-                    <div className="news_inner">
-                      <div className="image_box">
-                        <img src="/assets/images/blog/blog-image-7.jpg" className="img-fluid" alt="img" />
-                        <div className="overlay"></div>
-                        <div className="post-category">
-                          <a href="blog-single.html" className="categories">
-                            <i className="icon-folder"></i>
-                            HR Consulting
-                          </a>
-                        </div>
-                      </div>
-                      <div className="content_box">
-                        <ul className="post-info clearfix">
-
-                          <li className="date">
-                            <a href="blog-single.html"><i className="far  fa-calendar"></i>
-                              8 Oct , 2023
-                            </a>
-                          </li>
-                        </ul>
-                        <h2 className="entry-title">
-                          <a href="blog-single.html">
-                            How to Handle Employee With Works
-                          </a>
-                        </h2>
-                        <p className="short_desc">How well this mistaken ideas off denouncing
-                          pleasure &amp; praisings will give you complete.</p>
-                        <div className="bottom_content clearfix">
-                          <div className="continure_reading">
-                            <a href="blog-single.html" className="read_more type_one">
-                              Continue Reading <span className="icon-arrow-right"></span></a>
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-                </div>
-
-                <div className="col-xl-4 col-md-6 col-sm-6  col-xs-12">
-
-                  <div className="news_box type_one clearfix">
-                    <div className="news_inner">
-                      <div className="image_box">
-                        <img width="750" height="420" src="/assets/images/blog/blog-image-6.jpg"
-                          className="img-fluid" alt="" decoding="async" loading="lazy"
-                          srcSet="/assets/images/blog/blog-image-6.jpg 750w, assets/images/blog/blog-image-6-600x336.jpg 600w, /assets/images/blog/blog-image-6-300x168.jpg 300w"
-                          sizes="(max-width: 750px) 100vw, 750px" />
-                        <div className="overlay"></div>
-                        <div className="post-category">
-                          <a href="https://themepanthers.com/wp/creote/v2-new/category/recruiting/"
-                            className="categories"><i className="icon-folder"></i>Recruiting</a>
-                        </div>
-                      </div>
-                      <div className="content_box">
-                        <ul className="post-info clearfix">
-
-                          <li className="date"> <a
-                            href="https://themepanthers.com/wp/creote/v2-new/2023/10/08/retaining-good-employees-motivated/"><i
-                              className="far  fa-calendar"></i>8 Oct ,
-                            2023 </a> </li>
-                        </ul>
-                        <h2 className="entry-title"><a
-                          href="https://themepanthers.com/wp/creote/v2-new/2023/10/08/retaining-good-employees-motivated/">Retaining
-                          Good Employees &amp; Motivated</a></h2>
-                        <p className="short_desc">How well this mistaken ideas off denouncing
-                          pleasure &amp; praisings will give you complete.</p>
-                        <div className="bottom_content clearfix">
-                          <div className="continure_reading">
-                            <a href="https://themepanthers.com/wp/creote/v2-new/2023/10/08/retaining-good-employees-motivated/"
-                              className="read_more type_one">
-                              Continue Reading <span className="icon-arrow-right"></span></a>
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -1333,26 +937,47 @@ export default function Home() {
                     <form>
                       <p>
                         <label>
-                          <input type="text" name="your-name" size="40" placeholder="Enter Your Name" />
+                          <input type="text" name="your-name" size="40" placeholder="Enter Your Name"  {...register("name", {
+                            required: {
+                              value: true,
+                              message: "Name is required"
+                            }
+                          })} style={errors.name ? { borderColor: "red" } : {}} />
                           <br />
                           <i className="fa fa-user"></i>
                         </label>
+
                       </p>
+                      {errors.name && (
+                        <p style={{ color: "red", marginTop: "-25px" }}>{errors.name.message}</p>
+                      )}
                       <p>
                         <label>
-                          <input type="email" name="your-email" size="40" placeholder="Enter Your Email" />
+                          <input type="email" name="your-email" size="40" placeholder="Enter Your Email" {...register("email", {
+                            required: {
+                              value: true,
+                              message: "Email is required"
+                            },
+                            pattern: {
+                              value: /^\S+@\S+\.\S+$/,
+                              message: "Invalid Email"
+                            }
+                          })} style={errors.email ? { borderColor: "red" } : {}} />
                           <br />
                           <i className="fa fa-envelope"></i>
                         </label>
                       </p>
+                      {errors.email && (
+                        <p style={{ color: "red", marginTop: "-25px" }}>{errors.email.message}</p>
+                      )}
                       <p>
                         <label>
                           <input type="text" name="your-subject" size="40" placeholder="Enter Your Subject" />
                           <br />
                           <i className="fa fa-folder"></i>
                         </label>
-                        
-                        <input type="submit" />
+
+                        <input type="submit" onClick={handleSubmit(onSubmit)} disabled={isSubmitting} />
                       </p>
                     </form>
                   </div>
@@ -1362,7 +987,7 @@ export default function Home() {
           </div>
           <div className="pd_bottom_100"></div>
         </section>
-      </div>
+      </div >
     </>
 
   );

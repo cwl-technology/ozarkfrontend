@@ -2,6 +2,7 @@
 import Footer from "@/component/Footer";
 import Header from "../component/Header";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 
 
@@ -38,6 +39,7 @@ export default function RootLayout({ children }) {
         {children}
 
         <Footer />
+        <Toaster />
 
 
 

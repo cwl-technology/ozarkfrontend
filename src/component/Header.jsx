@@ -1,12 +1,28 @@
+"use client"
+
+import api from '@/_config/config';
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 function Header() {
 
+    const [solutionList, setSolutionList] = useState();
 
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const getData = async () => {
+        try {
+            const res = await api.get("/solution/get_solution_list");
+            setSolutionList(res.data.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
     return (
         <>
-            
+
             <div className="header_area" id="header_contents">
                 <section className="header header_default style_five get_sticky_header">
                     <div className="container-fluid">
@@ -37,13 +53,10 @@ function Header() {
                                                         <span className="fa fa-angle-down"></span>
                                                     </a>
                                                     <ul className="dropdown-menu width_60_percentage">
-                                                        <li><Link href="/solution/bookkeepping">Bookkeeping</Link></li>
-                                                        <li><Link href="/solution/year-end-accounts">Year-End Accounts </Link></li>
-                                                        <li><Link href="/solution/compliance">Tax Compliance </Link></li>
-                                                        <li><Link href="/solution/payroll-service">Payroll Services</Link></li>
-                                                        <li><Link href="/solution/virtual-cfo">Virtual CFO</Link></li>
-                                                        <li><Link href="/solution/financial-automation">Financial Automation</Link></li>
-                                                        <li><Link href="/solution/ar-process">AP/AR Processes </Link></li>
+
+                                                        {
+                                                            solutionList?.map((ele, ind) => <li key={ind}><Link href={`/solution/${ele.solution_slug}`} >{ele.solution_name}</Link></li>)
+                                                        }
                                                     </ul>
                                                 </li>
 
@@ -84,12 +97,12 @@ function Header() {
 
                                                 <li
                                                     className="menu-item menu-item-has-children  mega_menu nav-item">
-                                                    <a href="#" className="dropdown-toggle nav-link"><span>Contact Us</span>
+                                                    <a href="#" className="dropdown-toggle nav-link"><span>Contact</span>
                                                         <span className="fa fa-angle-down"></span>
                                                     </a>
                                                     <ul className="dropdown-menu width_60_percentage">
                                                         <ul>
-                                                            <li><Link href="/contact/contact_form">Contact Form </Link></li>
+                                                            <li><Link href="/contact/contact-us">Contact us </Link></li>
                                                             {/* <li><Link href="#">Office Locations (UK, India)</Link></li> */}
                                                             <li><Link href="/contact/faqs">FAQs </Link></li>
                                                         </ul>
@@ -104,22 +117,22 @@ function Header() {
                                                     <ul className="dropdown-menu width_60_percentage">
                                                         <ul>
                                                             <li><Link href="#">Our Expertise </Link></li>
-                                                            <li><Link href="#">Certifications </Link></li>
+                                                            {/* <li><Link href="#">Certifications </Link></li>
                                                             <li><Link href="#">Global Reach </Link></li>
                                                             <li><Link href="#">Client Satisfaction </Link></li>
-                                                            <li><Link href="#">Team Approach</Link></li>
+                                                            <li><Link href="#">Team Approach</Link></li> */}
                                                         </ul>
                                                     </ul>
                                                 </li>
                                                 <li className="menu-item  nav-item"><Link className="dropdown-toggle nav-link"
-                                                    href="javascript:void(0)">Careers</Link></li>
+                                                    href="/career">Careers</Link></li>
                                                 <li
                                                     className="menu-item menu-item-has-children  mega_menu nav-item">
                                                     <a href="#" className="dropdown-toggle nav-link"><span>Resources</span>
                                                         <span className="fa fa-angle-down"></span></a>
                                                     <ul className="dropdown-menu width_60_percentage">
                                                         <ul>
-                                                            <li><Link href="/resources/blog">Blogs/Insights</Link></li>
+                                                            <li><Link href="/blogs">Blogs</Link></li>
                                                             {/* <li><Link href="#">Whitepapers</Link></li>
                                                             <li><Link href="#">Guides </Link></li>
                                                             <li><Link href="#">Tax Season Checklist</Link></li> */}
@@ -127,18 +140,18 @@ function Header() {
                                                     </ul>
                                                 </li>
 
-                                                <li className="menu-item  nav-item"><Link className="dropdown-toggle nav-link" href="javascript:void(0)">Life At
+                                                <li className="menu-item  nav-item"><Link className="dropdown-toggle nav-link" href="/life-at-ozark">Life At
                                                     Ozark</Link></li>
 
                                             </ul>
                                         </div>
                                     </div>
-                                    
+
                                     <div className="header_right_content">
                                         <ul>
                                             <li>
-                                                <a href="#" target="_blank" rel="nofollow" className="theme-btn gradient-btn"> Get A
-                                                    Quote </a>
+                                                <Link href="/contact/contact-us" rel="nofollow" className="theme-btn gradient-btn"> Get A
+                                                    Quote </Link>
                                             </li>
                                         </ul>
                                     </div>

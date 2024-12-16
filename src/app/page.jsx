@@ -7,7 +7,7 @@ export const metadata = {
 
 function page() {
   return (
-<Home/>
+    <Home />
   )
 }
 
