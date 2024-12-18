@@ -873,14 +873,13 @@ export default function Home() {
 
                             <li className="date">
                               <a href="blog-single.html">
-                                <i className="far  fa-calendar"></i>
+                              <span className="icon-calendar me-2"></span>
                                 {ele.blog_date}
                               </a>
                             </li>
                           </ul>
                           <h2 className="entry-title"><a href="blog-single.html">{ele.heading}</a></h2>
-                          <p className="short_desc">How well this mistaken ideas off denouncing
-                            pleasure &amp; praisings will give you complete.</p>
+                          <p className="short_desc">{ele.content.substring(0,90)}...</p>
                           <div className="bottom_content clearfix">
                             <div className="continure_reading">
                               <a href="blog-single.html" className="read_more type_one">

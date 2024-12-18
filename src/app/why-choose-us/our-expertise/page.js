@@ -1,9 +1,11 @@
 import React from 'react'
-import BlogList from './BlogList'
+import OurExpertise from './OurExpertise'
 
 const page = () => {
   return (
-    <BlogList/>
+    <>
+      <OurExpertise/>
+    </>
   )
 }
 

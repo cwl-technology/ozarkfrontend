@@ -24,6 +24,7 @@ function Header() {
         <>
 
             <div className="header_area" id="header_contents">
+                
                 <section className="header header_default style_five get_sticky_header">
                     <div className="container-fluid">
                         <div className="row align-items-center">
@@ -88,8 +89,8 @@ function Header() {
                                                     </a>
                                                     <ul className="dropdown-menu width_60_percentage">
                                                         <ul>
-                                                            <li><Link href="/success_story/client_testimonial">Client Testimonials</Link></li>
-                                                            <li><Link href="/success_story/case_study">Case Studies</Link></li>
+                                                            <li><Link href="/success-story/client-testimonial">Client Testimonials</Link></li>
+                                                            <li><Link href="/success-story/case-study">Case Studies</Link></li>
                                                             {/* <li><Link href="#">Industry-Specific Results </Link></li> */}
                                                         </ul>
                                                     </ul>
@@ -116,7 +117,7 @@ function Header() {
                                                     </a>
                                                     <ul className="dropdown-menu width_60_percentage">
                                                         <ul>
-                                                            <li><Link href="#">Our Expertise </Link></li>
+                                                            <li><Link href="/why-choose-us/our-expertise">Our Expertise </Link></li>
                                                             {/* <li><Link href="#">Certifications </Link></li>
                                                             <li><Link href="#">Global Reach </Link></li>
                                                             <li><Link href="#">Client Satisfaction </Link></li>
@@ -140,8 +141,7 @@ function Header() {
                                                     </ul>
                                                 </li>
 
-                                                <li className="menu-item  nav-item"><Link className="dropdown-toggle nav-link" href="/life-at-ozark">Life At
-                                                    Ozark</Link></li>
+                                                <li className="menu-item  nav-item"><Link className="dropdown-toggle nav-link" href="/life-at-ozark">Life@ozark</Link></li>
 
                                             </ul>
                                         </div>

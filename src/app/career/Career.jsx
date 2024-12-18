@@ -3,12 +3,16 @@
 import api from '@/_config/config';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
+import { useForm } from "react-hook-form";
+import toast from 'react-hot-toast';
 
 function Career() {
     const [careerPageData, setCareerPageData] = useState(false);
     const [jobData, setJobData] = useState();
-
     const [activeIndex, setActiveIndex] = useState(0);
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+
+
     const handleToggle = (index) => {
         setActiveIndex(activeIndex === index ? null : index);
     };
@@ -30,12 +34,36 @@ function Career() {
     const getJobData = async () => {
         try {
             const res = await api.get("/jobs/get_all_active_job");
-            console.log(res.data);
             setJobData(res.data.data);
         } catch (err) {
             console.log(err);
         }
     }
+
+
+    const onSubmit = async (data) => {
+        try {
+            const fromdata = new FormData();
+            fromdata.append("name", data.name);
+            fromdata.append("email", data.email);
+            fromdata.append("phone", data.phone);
+            fromdata.append("experience", data.experience);
+            fromdata.append("position", data.position);
+            fromdata.append("notice_period", data.notice_period);
+            fromdata.append("resume", data.resume[0]);
+
+            const res = await api.post("/jobs/post_job_enquiry", fromdata);
+            if(res.data.status == 1){
+                toast.success(res.data.message);
+                reset();
+            }else{
+                toast.error("Internal server error !")
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
 
 
     return (
@@ -217,8 +245,8 @@ function Career() {
                                                                 <h6>Desired Skills:</h6>
                                                                 <ul>
                                                                     {
-                                                                        job?.skills?.map((ele,ind)=>
-                                                                        <li key={ind}>{ele.name}</li>
+                                                                        job?.skills?.map((ele, ind) =>
+                                                                            <li key={ind}>{ele.name}</li>
                                                                         )
                                                                     }
                                                                 </ul>
@@ -259,45 +287,94 @@ function Career() {
                                                     </div>
                                                     <form action="#" method="post" className="wpcf7-form init">
                                                         <div className="row">
-                                                            <div className="col-lg-4">
+                                                            <div className="col-lg-6">
 
                                                                 <p className="form-row form-row-first validate-required" id="billing_first_name_field">
                                                                     <label>Your Name&nbsp;</label>
 
-                                                                    <input type="text" className="input-text" name="billing_first_name" id="billing_first_name" placeholder="Name" />
-
+                                                                    <input type="text" className="input-text"
+                                                                        id="billing_first_name" placeholder="Name"
+                                                                        {...register("name", {
+                                                                            required: {
+                                                                                value: true,
+                                                                                message: "Name is required !"
+                                                                            }
+                                                                        })}
+                                                                        style={errors.name ? {
+                                                                            borderColor: "red"
+                                                                        } : {}} />
                                                                 </p>
+                                                                {errors.name && <p style={{ color: "red", marginTop: "-25px" }}>{errors.name.message}</p>}
                                                             </div>
-                                                            <div className="col-lg-4">
+                                                            <div className='col-ld-6'></div>
+                                                            <div className="col-lg-6">
                                                                 <p className="form-row form-row-wide validate-required validate-email" id="billing_email_field">
-                                                                    <label> address&nbsp;</label>
+                                                                    <label> Email&nbsp;</label>
 
-                                                                    <input type="email" className="input-text " name="billing_email" id="billing_email" placeholder="Email" autoComplete="email username" />
+                                                                    <input type="email" className="input-text " {...register("email", {
+                                                                        required: {
+                                                                            value: true,
+                                                                            message: "Email is required !"
+                                                                        },
+                                                                        pattern: {
+                                                                            value: /^\S+@\S+\.\S+$/,
+                                                                            message: "Invalid Email !"
+                                                                        }
+                                                                    })} id="billing_email" placeholder="Email" autoComplete="email username"
+                                                                        style={errors.email ? {
+                                                                            borderColor: "red"
+                                                                        } : {}} />
 
                                                                 </p>
+                                                                {errors.email && <p style={{ color: "red", marginTop: "-25px" }}>{errors.email.message}</p>}
                                                             </div>
-                                                            <div className="col-lg-4">
+                                                            <div className="col-lg-6">
                                                                 <p className="form-row form-row-wide validate-required validate-phone" id="billing_phone_field">
                                                                     <label>Phone Number</label>
 
-                                                                    <input type="tel" className="input-text" name="billing_phone" id="billing_phone" placeholder="Phone Number" autoComplete="tel" />
-
+                                                                    <input type="tel" className="input-text"
+                                                                        {...register("phone", {
+                                                                            required: {
+                                                                                value: true,
+                                                                                message: "Phone umber is required !"
+                                                                            },
+                                                                            pattern: {
+                                                                                value: /^[+]?\d+$/,
+                                                                                message: "Invalid phone number !"
+                                                                            }
+                                                                        })} id="billing_phone" placeholder="Phone Number" autoComplete="tel" style={errors.phone ? {
+                                                                            borderColor: "red"
+                                                                        } : {}} />
                                                                 </p>
+                                                                {errors.phone && <p style={{ color: "red", marginTop: "-25px" }}>{errors.phone.message}</p>}
                                                             </div>
                                                             <div className="col-lg-6">
                                                                 <p className="form-row form-row-wide validate-required validate-phone" id="billing_phone_field-2">
                                                                     <label>Total Experience</label>
 
-                                                                    <input type="tel" className="input-text" name="billing_phone-2" id="billing_phone-2" placeholder="Total Experience" autoComplete="tel" />
+                                                                    <input type="number" min="0"
+                                                                        defaultValue={0} className="input-text" id="billing_phone-2" placeholder="Total Experience" autoComplete="tel"
+                                                                        {...register("experience", {
+                                                                            min: {
+                                                                                value: 0,
+                                                                                message: "can't be less than 0",
+                                                                            },
+                                                                        })}
+                                                                        style={errors.experience ? {
+                                                                            borderColor: "red"
+                                                                        } : {}} />
 
                                                                 </p>
+                                                                {errors.experience && <p style={{ color: "red", marginTop: "-25px" }}>{errors.experience.message}</p>}
                                                             </div>
 
                                                             <div className="col-lg-6">
                                                                 <p className="form-row form-row-wide validate-required validate-phone" id="billing_phone_field-3">
                                                                     <label>Notice Period</label>
 
-                                                                    <input type="tel" className="input-text" name="billing_phone-3" id="billing_phone-3" placeholder="Notice Period" autoComplete="tel" />
+                                                                    <input type="tel" className="input-text"
+                                                                        {...register("notice_period")}
+                                                                        id="billing_phone-3" placeholder="Notice Period" autoComplete="tel" />
 
                                                                 </p>
                                                             </div>
@@ -305,20 +382,43 @@ function Career() {
                                                                 <p className="form-row address-field validate-required validate-state form-row-wide" id="billing_state_field">
                                                                     <label>Position</label>
 
-                                                                    <select name="billing_state" id="billing_state" className="state_select select2-hidden-accessible" data-placeholder="Select an option…" data-input-classnamees="" data-label="State" tabIndex="-1" aria-hidden="true">
-                                                                        <option value="">Position</option>
-                                                                        <option value="TN">Wordpress Developer</option>
-                                                                        <option value="KL">Zoomla Developer</option>
-                                                                        <option value="KR">Designer</option>
+                                                                    <select name="billing_state" id="billing_state" className="state_select select2-hidden-accessible" data-placeholder="Select an option…" data-input-classnamees="" data-label="State" tabIndex="-1" aria-hidden="true"
+                                                                        {...register("position", {
+                                                                            required: {
+                                                                                value: true,
+                                                                                message: "Positon is required !"
+                                                                            }
+                                                                        })}
+                                                                        style={errors.position ? {
+                                                                            borderColor: "red"
+                                                                        } : {}}>
+                                                                        <option hidden defaultChecked value={""}>Position</option>
+
+                                                                        {
+                                                                            jobData?.map((ele, ind) =>
+                                                                                <option value={ele.job_title} key={ind}>{ele.job_title}</option>)
+                                                                        }
                                                                     </select>
 
                                                                 </p>
+                                                                {errors.position && <p style={{ color: "red", marginTop: "-25px" }}>{errors.position.message}</p>}
                                                             </div>
                                                             <div className="col-lg-6 text_area">
-                                                                <p className="form-row address-field form-row-wide">	<input type="file" className="input-text" /></p>
+                                                                <p className="form-row address-field form-row-wide">
+                                                                    <label>Resume</label>
+                                                                    <input type="file" className="input-text" accept=".pdf"
+                                                                        {...register("resume", {
+                                                                            required: {
+                                                                                value: true,
+                                                                                message: "Resume is required !"
+                                                                            }
+                                                                        })} style={errors.resume ? {
+                                                                            borderColor: "red"
+                                                                        } : {}} /></p>
+                                                                {errors.resume && <p style={{ color: "red", marginTop: "-25px" }}>{errors.resume.message}</p>}
                                                             </div>
                                                             <div className="col-lg-12">
-                                                                <input type="submit" value="Submit" className="wpcf7-form-control has-spinner wpcf7-submit theme-btn one" />
+                                                                <input type="submit" value={isSubmitting?"Submiting...":"Submit"}  className="wpcf7-form-control has-spinner wpcf7-submit theme-btn one" onClick={handleSubmit(onSubmit)} disabled={isSubmitting}/>
                                                             </div>
                                                         </div>
                                                     </form>
